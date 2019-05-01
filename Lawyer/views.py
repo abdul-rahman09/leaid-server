@@ -444,6 +444,7 @@ def login(request):
 	PARAMS = {'username':username,'password':password}
 	try:
 		r = requests.post('https://leaid.herokuapp.com/auth-jwt/',PARAMS)
+		# r = requests.post('http://localhost:8000/auth-jwt/',PARAMS)
 	except Exception as e:
 		return JsonResponse({"Error":"Token Error","Err": e})
 	r = r.json()
