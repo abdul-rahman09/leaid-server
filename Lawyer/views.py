@@ -80,7 +80,7 @@ def signup(request):
 	obj  = Lawyer(user=user,state=State,city=City,buisness_address=BusinessAddress,phone_number=PhoneNumber,liscence_number=LicenseIDNumber,year_admitted=YearAdmitted,hcr_number=HCRNo)
 	obj.save()
 	PARAMS = {'username':Email,'password': Password}
-	r = requests.post('http://localhost:8000/auth-jwt/',PARAMS)
+	r = requests.post('https://leaid.herokuapp.com/auth-jwt/',PARAMS)
 	obj = r.json()
 	return JsonResponse(obj)
 
@@ -270,7 +270,7 @@ def verify(request):
 		return JsonResponse({"Error":"Token is required"},status=400)
 	PARAMS = {'token':token}
 	try:
-		r = requests.post('http://localhost:8000/auth-jwt-verify/',PARAMS)
+		r = requests.post('https://leaid.herokuapp.com/auth-jwt-verify/',PARAMS)
 	except Exception as e:
 		return JsonResponse({"Error":"Token Error","Err": e})
 	r = r.json()
@@ -297,7 +297,7 @@ def verify(request):
 		obj['liscence_number'] = lawyer.liscence_number
 		obj['hcr_number'] = lawyer.hcr_number
 		if lawyer.image:
-			obj['image'] = "{0}{1}".format("http://localhost:8000", lawyer.image.url)
+			obj['image'] = "{0}{1}".format("https://leaid.herokuapp.com", lawyer.image.url)
 		return JsonResponse(obj)	
 	except Exception as e:
 		try:
@@ -311,7 +311,7 @@ def verify(request):
 			obj['email'] = user.email
 			obj['lastname'] = user.last_name
 			if client.image:
-				obj['image'] = "{0}{1}".format("http://localhost:8000", client.image.url)
+				obj['image'] = "{0}{1}".format("https://leaid.herokuapp.com", client.image.url)
 			return JsonResponse(obj)
 		except Exception as e:
 			return JsonResponse({"Error": e})	
@@ -395,7 +395,7 @@ def editProfile(request):
 				obj = LawyerCategory(lawyerid=lawyer,categoryid=cat)
 				obj.save()
 
-	if photo.find('http://localhost:8000') == -1:
+	if photo.find('https://leaid.herokuapp.com') == -1:
 		data = photo.split(',')[1]
 		imgdata = base64.b64decode(data)
 		filename = username + '.jpg'
@@ -443,7 +443,7 @@ def login(request):
 		return HttpResponse("Password is required")
 	PARAMS = {'username':username,'password':password}
 	try:
-		r = requests.post('http://localhost:8000/auth-jwt/',PARAMS)
+		r = requests.post('https://leaid.herokuapp.com/auth-jwt/',PARAMS)
 	except Exception as e:
 		return JsonResponse({"Error":"Token Error","Err": e})
 	r = r.json()
@@ -470,7 +470,7 @@ def login(request):
 		obj['liscence_number'] = lawyer.liscence_number
 		obj['hcr_number'] = lawyer.hcr_number
 		if lawyer.image:
-			obj['image'] = "{0}{1}".format("http://localhost:8000", lawyer.image.url)
+			obj['image'] = "{0}{1}".format("https://leaid.herokuapp.com", lawyer.image.url)
 		return JsonResponse(obj)	
 	except Exception as e:
 		try:
